@@ -8,6 +8,11 @@ import {
   UserEntity,
 } from '@app/common';
 
+import { config } from 'dotenv';
+import * as process from 'node:process';
+
+config();
+
 @Injectable()
 export class SubscribeBotItemService implements OnModuleInit {
   constructor(
@@ -63,7 +68,7 @@ export class SubscribeBotItemService implements OnModuleInit {
         subscribe.title,
         subscribe.description,
         'payload',
-        '381764678:TEST:86637',
+        process.env.PAY_TOKEN,
         //this.configService.get<string>("PAY_TOKEN"),
         'RUB',
         [{ label: `Цена ${subscribe.title}`, amount: subscribe.price * 100 }],
