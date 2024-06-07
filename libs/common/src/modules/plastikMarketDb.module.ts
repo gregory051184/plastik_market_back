@@ -23,15 +23,15 @@ config();
         schema: 'public',
         host: process.env.POSTGRES_HOST_DEP, //'dpg-cpfjk8n109ks73blre7g-a.frankfurt-postgres.render.com',
         port: +process.env.POSTGRES_PORT_DEP,
-        username: 'plastik_market_db_user', //process.env.POSTGRES_USERS_DEP,
+        username: 'plastik_market_db_q55u_user',
         password: process.env.POSTGRES_PASSWORD_DEP,
         database: process.env.POSTGRES_PLASTIK_DB_DEP,
-        /*database: configService.get('POSTGRES_PLASTIK_DB_DEP'),
-        port: +configService.get('POSTGRES_PORT_DEP'),
-        host: configService.get('POSTGRES_HOST_DEP'),
-        username: configService.get('POSTGRES_USER_DEP'),
-        password: configService.get('POSTGRES_PASSWORD_DEP'),*/
-        synchronize: false,
+        /*database: configService.get('POSTGRES_PLASTIK_DB'),
+        port: +configService.get('POSTGRES_PORT'),
+        host: configService.get('POSTGRES_HOST'),
+        username: configService.get('POSTGRES_USER'),
+        password: configService.get('POSTGRES_PASSWORD'),*/
+        synchronize: true,
         autoLoadEntities: true,
         ssl: true,
         entities: [
