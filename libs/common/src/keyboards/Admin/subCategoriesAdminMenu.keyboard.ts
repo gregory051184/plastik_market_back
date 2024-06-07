@@ -7,7 +7,7 @@ export const subCategoriesAdminMenuKeyboard: any = {
         {
           text: adminButtons.subCategories.createSubCategory,
           web_app: {
-            url: 'https://bf37-5-164-188-201.ngrok-free.app/create/subcategory',
+            url: 'https://e213-5-164-188-201.ngrok-free.app/create/subcategory',
           },
         },
       ],

@@ -7,7 +7,7 @@ export const subscribeAdminMenuKeyboard: any = {
         {
           text: adminButtons.subscribes.createSubscribe,
           web_app: {
-            url: 'https://bf37-5-164-188-201.ngrok-free.app/create/subscribe',
+            url: 'https://e213-5-164-188-201.ngrok-free.app/create/subscribe',
           },
         },
       ],

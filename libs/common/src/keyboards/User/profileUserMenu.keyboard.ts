@@ -32,7 +32,7 @@ export const profileUserMenuKeyboard = async (userId: number) => {
           {
             text: userButtons.profile.changeProfile,
             web_app: {
-              url: `https://bf37-5-164-188-201.ngrok-free.app/update/user/${userId}`,
+              url: `https://e213-5-164-188-201.ngrok-free.app/update/user/${userId}`,
             },
           },
         ],
