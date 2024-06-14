@@ -8,9 +8,9 @@ import {
     PrimaryGeneratedColumn,
     UpdateDateColumn
 } from "typeorm";
-import {ItemEntity} from "@app/common/entities/item/item.entity";
-import {SubscriptionEntity} from "@app/common/entities/subscription/subscription.entity";
-import {CityEntity} from "@app/common/entities/city/city.entity";
+import {ItemEntity} from "../item/item.entity";
+import {SubscriptionEntity} from "../subscription/subscription.entity";
+import {CityEntity} from "../city/city.entity";
 
 
 @Entity('users')

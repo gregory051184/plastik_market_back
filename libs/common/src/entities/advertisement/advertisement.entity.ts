@@ -1,10 +1,7 @@
-import {ItemEntity} from "@app/common/entities/item/item.entity";
 import {
     Column,
     CreateDateColumn,
     Entity,
-    JoinColumn,
-    OneToMany, OneToOne,
     PrimaryGeneratedColumn,
     UpdateDateColumn
 } from "typeorm";

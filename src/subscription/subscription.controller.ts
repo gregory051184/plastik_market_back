@@ -18,13 +18,14 @@ export class SubscriptionController {
         return await this.subscribeService.update(subscribeUpdateDto);
     };
 
+    @Get()
+    async getAll(): Promise<SubscriptionEntity[]> {
+        return await this.subscribeService.getAll();
+    }
+
     @Get('/:id')
     async getById(@Param('id') id: number): Promise<SubscriptionEntity> {
         return await this.subscribeService.getById(id);
     };
 
-    @Get()
-    async getAll(): Promise<SubscriptionEntity[]> {
-        return await this.subscribeService.getAll();
-    }
 }

@@ -26,9 +26,9 @@ config();
                 username: 'plastik_user',
                 password: process.env.POSTGRES_PASSWORD_DEP,
                 database: process.env.POSTGRES_PLASTIK_DB_DEP,
-                synchronize: true,
+                synchronize: false,
                 autoLoadEntities: true,
-                ssl: true,
+                //ssl: true,
                 entities: [
                     UserEntity,
                     CategoryEntity,

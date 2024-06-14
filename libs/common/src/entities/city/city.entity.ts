@@ -8,8 +8,8 @@ import {
     PrimaryGeneratedColumn,
     UpdateDateColumn
 } from "typeorm";
-import {ItemEntity} from "@app/common/entities/item/item.entity";
-import {UserEntity} from "@app/common/entities/user/user.entity";
+import {ItemEntity} from "../item/item.entity";
+import {UserEntity} from "../user/user.entity";
 
 @Entity('cities')
 export class CityEntity {

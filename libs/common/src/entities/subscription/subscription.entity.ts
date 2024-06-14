@@ -1,5 +1,5 @@
 import {Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn} from "typeorm";
-import {UserEntity} from "@app/common/entities/user/user.entity";
+import {UserEntity} from "../user/user.entity";
 
 
 @Entity('subscriptions')

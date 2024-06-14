@@ -7,7 +7,8 @@ import {
     PrimaryGeneratedColumn,
     UpdateDateColumn
 } from "typeorm";
-import {CategoryEntity, ItemEntity} from "@app/common";
+import {CategoryEntity} from "../category/category.entity";
+import {ItemEntity} from "../item/item.entity";
 
 @Entity('subcategories')
 export class SubCategoryEntity {

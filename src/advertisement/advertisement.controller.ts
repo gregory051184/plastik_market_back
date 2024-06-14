@@ -19,13 +19,13 @@ export class AdvertisementController {
         return await this.advertisementService.update(advertisementUpdateDto);
     };
 
-    @Get('/:id')
-    async getById(@Param('id') id: number): Promise<AdvertisementEntity> {
-        return await this.advertisementService.findById(id);
-    }
-
     @Get('/all')
     async getAll(): Promise<AdvertisementEntity[]> {
         return await this.advertisementService.findAll()
-    }
+    };
+
+    @Get('/:id')
+    async getById(@Param('id') id: number): Promise<AdvertisementEntity> {
+        return await this.advertisementService.findById(id);
+    };
 }

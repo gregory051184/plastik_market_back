@@ -2,17 +2,16 @@ import {
     Column,
     CreateDateColumn,
     Entity,
-    JoinColumn, ManyToMany,
+    JoinColumn,
     ManyToOne, OneToOne,
     PrimaryGeneratedColumn,
     UpdateDateColumn
 } from "typeorm";
-import {CityEntity} from "@app/common/entities/city/city.entity";
-import {AdvertisementEntity} from "@app/common/entities/advertisement/advertisement.entity";
-import {CategoryEntity} from "@app/common/entities/category/category.entity";
-import {CartEntity} from "@app/common/entities/cart/cart.entity";
-import {UserEntity} from "@app/common/entities/user/user.entity";
-import {SubCategoryEntity} from "@app/common/entities/subCategory/subCategory.entity";
+import {CityEntity} from "../city/city.entity";
+import {AdvertisementEntity} from "../advertisement/advertisement.entity";
+import {CategoryEntity} from "../category/category.entity";
+import {UserEntity} from "../user/user.entity";
+import {SubCategoryEntity} from "../subCategory/subCategory.entity";
 
 
 @Entity('items')

@@ -30,10 +30,10 @@ export class ItemController {
         return await this.itemService.update(itemUpdateDto, file);
     };
 
-    @Get('/:id')
-    async getById(@Param('id') id: number): Promise<ItemEntity> {
-        return await this.itemService.getById(id);
-    }
+    @Get('/all')
+    async getAll(): Promise<ItemEntity[]> {
+        return await this.itemService.getAll()
+    };
 
     @Get('/filters')
     async filter(@Body() data: ItemsFilterDto) {
@@ -41,9 +41,9 @@ export class ItemController {
 
     };
 
-    @Get('/all')
-    async getAll(): Promise<ItemEntity[]> {
-        return await this.itemService.getAll()
-    }
+    @Get('/:id')
+    async getById(@Param('id') id: number): Promise<ItemEntity> {
+        return await this.itemService.getById(id);
+    };
 
 }

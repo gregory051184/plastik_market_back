@@ -14,17 +14,17 @@ export class UsersController {
 
     @Patch()
     async updateUserProfile(@Body() userUpdateDto: UserUpdateDto): Promise<void> {
-        return await this.usersFormsService.updateUserProfile(userUpdateDto)
-    }
-
-    @Get('/:id')
-    async getById(@Param('id') id: number): Promise<UserEntity> {
-        return await this.usersService.getById(id);
+        return await this.usersFormsService.updateUserProfile(userUpdateDto);
     }
 
     @Get('/all')
     async getAllUsers(): Promise<UserEntity[]> {
         return await this.usersService.getAll();
+    }
+
+    @Get('/:id')
+    async getById(@Param('id') id: number): Promise<UserEntity> {
+        return await this.usersService.getById(id);
     }
 
     @Get('chat/:id')

@@ -16,7 +16,7 @@ const AppDataSource = new DataSource({
     database: process.env.POSTGRES_PLASTIK_DB_DEP,
     entities: ['./libs/common/src/entities/**/*.entity.ts'],
     migrations: ['./src/migrations/*.ts'],
-    ssl: true,
+    //ssl: true,
 })
 
 AppDataSource.initialize()
