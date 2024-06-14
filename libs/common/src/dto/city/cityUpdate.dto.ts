@@ -1,15 +1,16 @@
-import { IsBoolean, IsNumber, IsString } from 'class-validator';
+import {IsBoolean, IsNumber, IsString} from "class-validator";
 
 export class CityUpdateDto {
-  @IsNumber({}, { message: 'Должно быть число' })
-  id: number;
 
-  @IsString({ message: 'Должно быть строкой' })
-  title: string;
+    @IsNumber({}, {message: 'Должно быть число'})
+    id: number;
 
-  @IsBoolean({ message: 'Значение должно быть true/false' })
-  other?: boolean;
+    @IsString({message: "Должно быть строкой"})
+    title: string;
 
-  @IsNumber({}, { message: 'Должно быть число' })
-  userId: number;
+    @IsBoolean({message: "Значение должно быть true/false"})
+    other?: boolean;
+
+    @IsNumber({}, {message: 'Должно быть число'})
+    userId: number;
 }

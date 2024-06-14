@@ -1,12 +1,12 @@
-import { IsNumber, IsString } from 'class-validator';
+import {IsNumber, IsString} from "class-validator";
 
 export class SubCategoryUpdateDto {
-  @IsNumber({}, { message: 'Должно быть число' })
-  id: number;
+    @IsNumber({}, {message: 'Должно быть число'})
+    id: number;
 
-  @IsString({ message: 'Должно быть строкой' })
-  title?: string;
+    @IsString({message: "Должно быть строкой"})
+    title?: string;
 
-  @IsNumber({}, { message: 'Должно быть число' })
-  categoryId?: number;
+    @IsNumber({}, {message: 'Должно быть число'})
+    categoryId?: number;
 }

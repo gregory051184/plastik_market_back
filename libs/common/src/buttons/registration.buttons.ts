@@ -1,3 +1,3 @@
 export const registrationButtons = {
-  registration: 'Регистрация',
-};
+    registration: 'Регистрация'
+}

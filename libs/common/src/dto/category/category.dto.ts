@@ -1,6 +1,7 @@
-import { IsString } from 'class-validator';
+import {IsString} from "class-validator";
 
 export class CategoryDto {
-  @IsString({ message: 'Должно быть строкой' })
-  title: string;
+
+    @IsString({message: "Должно быть строкой"})
+    title: string;
 }

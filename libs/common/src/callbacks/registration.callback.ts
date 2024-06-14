@@ -1,3 +1,3 @@
 export const registrationCallback = {
-  registration: 'регистрация',
-};
+    registration: 'регистрация'
+}

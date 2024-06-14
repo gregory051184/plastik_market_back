@@ -1,31 +1,25 @@
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  OneToMany,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
-import { ItemEntity } from '../item/item.entity';
-import { SubCategoryEntity } from '../subCategory/subCategory.entity';
+import {Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn} from "typeorm";
+import {ItemEntity} from "@app/common/entities/item/item.entity";
+import {SubCategoryEntity} from "@app/common/entities/subCategory/subCategory.entity";
 
 @Entity('categories')
 export class CategoryEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
 
-  @Column({ nullable: false })
-  title: string;
+    @PrimaryGeneratedColumn()
+    id: number;
 
-  @CreateDateColumn()
-  public createdAt: string;
+    @Column({nullable: false})
+    title: string;
 
-  @UpdateDateColumn()
-  public updatedAt: string;
+    @CreateDateColumn()
+    public createdAt: string;
 
-  @OneToMany(() => ItemEntity, (item) => item.category)
-  item: ItemEntity[];
+    @UpdateDateColumn()
+    public updatedAt: string;
 
-  @OneToMany(() => SubCategoryEntity, (subCategory) => subCategory.category)
-  subCategories: SubCategoryEntity[];
+    @OneToMany(() => ItemEntity, (item) => item.category)
+    item: ItemEntity[];
+
+    @OneToMany(() => SubCategoryEntity, subCategory => subCategory.category)
+    subCategories: SubCategoryEntity[];
 }
