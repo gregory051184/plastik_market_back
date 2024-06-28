@@ -1,4 +1,4 @@
-const url = 'https://723d-5-164-183-17.ngrok-free.app'
+const url = 'https://70b6-5-164-183-17.ngrok-free.app'
 
 export const urls = {
     create_new_item_form: `${url}/create/item`,

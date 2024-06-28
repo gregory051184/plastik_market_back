@@ -1,11 +1,13 @@
 import {Injectable, OnModuleInit} from "@nestjs/common";
 import {CategoryService} from "../category.service";
 import {CategoryEntity, CityEntity, SubCategoryEntity, urls} from "@app/common";
+import {UsersService} from "../../../users/services/users.service";
 
 @Injectable()
 export class CategoriesBotListsService implements OnModuleInit {
     constructor(
-        private readonly categoriesService: CategoryService
+        private readonly categoriesService: CategoryService,
+        private readonly usersService: UsersService,
     ) {
     }
 
@@ -57,8 +59,8 @@ export class CategoriesBotListsService implements OnModuleInit {
         try {
             const categories: CategoryEntity[] = await this.categoriesService.getAll();
 
-            const cat = await categories.map((category: any) =>
-                [{text: `${category.title}`, web_app: {url: `${urls.update_category_form}/` + `${category.id}`}}]
+            const cat = categories.map((category: any) =>
+                [{text: `${category.title}`, web_app: {url: `${urls.update_category_form}/` + `${category.id}/` + `${chatId}`}}]
             )
 
             if (categories.length > 0) {
@@ -107,8 +109,11 @@ export class CategoriesBotListsService implements OnModuleInit {
 
     async deleteCategory(bot: any, chatId: string, categoryId: number): Promise<void> {
         try {
-            await this.categoriesService.delete(categoryId);
-            await bot.sendMessage(chatId, 'Категория удалена');
+            const currentUser = await this.usersService.getByChatId(chatId);
+            if (currentUser.admin) {
+                await this.categoriesService.delete(categoryId);
+                await bot.sendMessage(chatId, 'Категория удалена');
+            }
 
         }catch (error) {}
     }

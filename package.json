@@ -18,13 +18,10 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-
     "typeorm": "typeorm-ts-node-commonjs",
-
     "db:generate": "npm run typeorm migration:generate -- -d ./libs/common/src/config/db.config.ts ./src/migrations/auto",
     "db:migrate": "npm run typeorm migration:run -- -d ./libs/common/src/config/db.config.ts",
     "db:revert": "npm run typeorm migration:revert -- -d ./libs/common/src/config/db.config.ts",
-
     "migration:create": "npm run build && npm run typeorm migration:create -- -n",
     "migration:gen": "nest build entities --tsc && cross-env npm run typeorm -- -d ./libs/common/src/config/typeorm.config.ts migration:generate ./migrations/%npm_config_name%_migration",
     "migration:run": "npm run typeorm migration:run -- -d ./libs/common/src/config/typeorm.config.ts",
@@ -37,6 +34,7 @@
     "@nestjs/jwt": "^10.0.3",
     "@nestjs/microservices": "^9.4.0",
     "@nestjs/platform-express": "^9.0.0",
+    "@nestjs/schedule": "^4.0.2",
     "@nestjs/swagger": "^6.3.0",
     "@nestjs/typeorm": "^9.0.1",
     "@types/express-session": "^1.17.7",

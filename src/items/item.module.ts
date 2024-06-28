@@ -14,6 +14,7 @@ import {CartModule} from "../cart/cart.module";
 import {SubCategoryModule} from "../subCategory/subCategory.module";
 import {AdvertisementModule} from "../advertisement/advertisement.module";
 import {SubscriptionModule} from "../subscription/subscription.module";
+import {TasksService} from "../task/tasks.service";
 
 
 @Module({
@@ -39,7 +40,8 @@ import {SubscriptionModule} from "../subscription/subscription.module";
         ItemsBotListsService,
         ItemsBotItemService,
         ItemsBotFormsService,
-        FilterService
+        FilterService,
+        TasksService
     ],
     exports: [
         ItemService,

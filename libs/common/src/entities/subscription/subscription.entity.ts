@@ -19,6 +19,11 @@ export class SubscriptionEntity {
     @Column({default: 1})
     months: number;
 
+    //____________________________________
+    @Column({nullable: false})
+    itemsNumber: number;
+    //____________________________________
+
     @CreateDateColumn()
     public createdAt: string;
 

@@ -12,4 +12,10 @@ export class SubscribeDto {
 
     @IsNumber({}, {message: 'Должно быть число'})
     months: number;
+
+    @IsNumber({}, {message: 'Должно быть число'})
+    itemsNumber: number;
+
+    @IsNumber({}, {message: 'Должно быть число'})
+    userId: number;
 }

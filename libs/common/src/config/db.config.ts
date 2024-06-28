@@ -1,11 +1,8 @@
 import {DataSource} from "typeorm";
-import {ConfigService} from "@nestjs/config";
 import { config } from 'dotenv';
 import * as process from 'node:process';
 
 config();
-
-//const configService = new ConfigService()
 
 const AppDataSource = new DataSource({
     type: 'postgres',

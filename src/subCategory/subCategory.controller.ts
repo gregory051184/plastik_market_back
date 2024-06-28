@@ -15,9 +15,9 @@ export class SubCategoryController {
         return this.subCategoriesService.create(subCategoryDto);
     };
 
-    @Patch()
-    async update(@Body() subCategoryUpdateDto: SubCategoryUpdateDto): Promise<void> {
-        return this.subCategoriesService.update(subCategoryUpdateDto);
+    @Patch('/:chatId')
+    async update(@Param('chatId') chatId: string, @Body() subCategoryUpdateDto: SubCategoryUpdateDto): Promise<void> {
+        return this.subCategoriesService.update(subCategoryUpdateDto, chatId.toString());
     }
 
     @Get('/all')

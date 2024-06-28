@@ -15,5 +15,8 @@ export class SubscribeUpdateDto {
     description: string;
 
     @IsNumber({}, {message: 'Должно быть число'})
+    itemsNumber: number;
+
+    @IsNumber({}, {message: 'Должно быть число'})
     months: number;
 }

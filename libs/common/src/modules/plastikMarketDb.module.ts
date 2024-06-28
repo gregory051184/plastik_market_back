@@ -21,12 +21,12 @@ config();
             useFactory: (configService: ConfigService) => ({
                 type: "postgres",
                 schema: "public",
-                host: process.env.POSTGRES_HOST_DEP,
-                port: +process.env.POSTGRES_PORT_DEP,
-                username: 'plastik_user',
-                password: process.env.POSTGRES_PASSWORD_DEP,
-                database: process.env.POSTGRES_PLASTIK_DB_DEP,
-                synchronize: false,
+                host: 'localhost',//process.env.POSTGRES_HOST,
+                port: 5432,//+process.env.POSTGRES_PORT,
+                username: 'postgres',//process.env.POSTGRES_USER,
+                password: 'postgres',//process.env.POSTGRES_PASSWORD,
+                database: 'plast_market',//process.env.POSTGRES_PLASTIK_DB,
+                synchronize: true,
                 autoLoadEntities: true,
                 //ssl: true,
                 entities: [

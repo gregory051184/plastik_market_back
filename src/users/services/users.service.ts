@@ -10,7 +10,6 @@ export class UsersService {
     constructor(
         @InjectRepository(UserEntity) private readonly usersRepository: Repository<UserEntity>,
         @InjectRepository(CartEntity) private readonly cartsRepository: Repository<CartEntity>,
-        //private readonly cartService: CartService
 
     ) {
     }
@@ -39,7 +38,7 @@ export class UsersService {
     };
 
     async getByChatId(chatId: string): Promise<UserEntity> {
-        const user: UserEntity = await this.usersRepository.findOne({where: {chatId: chatId}});
+        const user: UserEntity = await this.usersRepository.findOne({where: {chatId: chatId}, relations: ['subscribe']});
         return user;
     };
 

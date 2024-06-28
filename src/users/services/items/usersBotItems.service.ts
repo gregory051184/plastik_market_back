@@ -56,41 +56,7 @@ export class UsersBotItemsService implements OnModuleInit {
                                         callback_data: `забанить_${user.id}`
                                     }
                                 ],
-                                /*[
-                                    {
-                                        text: `проверить корзину пользователя`,
-                                        callback_data: `проверить_корзину_по_id_пользователя_админ_${user.id}`
-                                    }
-                                ],
-                                [
-                                    {
-                                        text: !user.banned ? `Забанить` : 'Разбанить',
-                                        callback_data: `забанить_данного_пользователя_админ_${user.id}`
-                                    }
-                                ]*/
-                                /*[
-                                    {
-                                        text: `${adminCallback.users.delete}`,
-                                        callback_data: `${adminCallback.users.delete}_${user.id}`
-                                    },
-                                    {text: `${adminButtons.users.return}`, callback_data: adminCallback.users.return},
-                                    {
-                                        text: user.admin ? 'Забанить' : 'Сделать админом',
-                                        callback_data: `create_or_ban_admin_${user.id}`
-                                    }
-                                ],
-                                [
-                                    {
-                                        text: `${adminButtons.carts.getCartByUserId}`,
-                                        callback_data: `${adminCallback.carts.getCartByUserId}_${user.id}`
-                                    }
-                                ],
-                                [
-                                    {
-                                        text: !user.banned ? `${adminButtons.users.banned}` : 'Разбанить',
-                                        callback_data: `${adminCallback.users.banned}_${user.id}`
-                                    }
-                                ]*/
+
                             ]
                         })
                     }

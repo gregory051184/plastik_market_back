@@ -17,14 +17,14 @@ export class CategoryController {
         return await this.categoriesService.create(categoryDto);
     };
 
-    @Patch()
-    async update(@Body() categoryUpdateDto: CategoryUpdateDto): Promise<void> {
-        return await this.categoriesService.update(categoryUpdateDto);
+    @Patch('/:chatId')
+    async update(@Param('chatId') chatId: string, @Body() categoryUpdateDto: CategoryUpdateDto): Promise<void> {
+        return await this.categoriesService.update(categoryUpdateDto, chatId);
     }
 
     @Get('/all')
     async findAll(): Promise<CategoryEntity[]> {
-        return await this.categoriesService.getAll()
+        return await this.categoriesService.getAll();
     }
 
     @Get(':id')

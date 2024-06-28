@@ -7,4 +7,7 @@ export class SubCategoryDto {
 
     @IsNumber({}, {message: 'Должно быть число'})
     categoryId: number;
+
+    @IsNumber({}, {message: 'Должно быть число'})
+    userId: number;
 }

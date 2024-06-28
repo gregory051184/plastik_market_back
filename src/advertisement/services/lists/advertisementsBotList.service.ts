@@ -1,7 +1,6 @@
 import {Injectable, OnModuleInit} from "@nestjs/common";
 import {AdvertisementService} from "../advertisement.service";
 import {UsersService} from "../../../users/services/users.service";
-import {CommonService} from "@app/common/services/common.service";
 import {advertisementAdminMenuKeyboard, AdvertisementEntity, urls} from "@app/common";
 
 @Injectable()
@@ -9,7 +8,6 @@ export class AdvertisementsBotListService implements OnModuleInit {
     constructor(
         private readonly advertisementService: AdvertisementService,
         private readonly usersService: UsersService,
-        private readonly commonService: CommonService
     ) {
     }
 
@@ -43,14 +41,14 @@ export class AdvertisementsBotListService implements OnModuleInit {
                     )
                 })
                 if (currentUser.admin) {
-                    await bot.sendMessage(chatId, '*****МЕНЮ РЕКЛАМЫ*****', advertisementAdminMenuKeyboard);
+                    await bot.sendMessage(chatId, '*****МЕНЮ РЕКЛАМЫ*****', await advertisementAdminMenuKeyboard(chatId));
                 }
             }
             if (advertisements.length === 0 && !currentUser.admin) {
                 await bot.sendMessage(chatId, 'Рекламы пока нет');
             }
             if (advertisements.length === 0 && currentUser.admin) {
-                await bot.sendMessage(chatId, 'Рекламы пока нет', advertisementAdminMenuKeyboard);
+                await bot.sendMessage(chatId, 'Рекламы пока нет', await advertisementAdminMenuKeyboard(chatId));
             }
         } catch (error) {
         }
@@ -61,8 +59,11 @@ export class AdvertisementsBotListService implements OnModuleInit {
         try {
             const advertisements: AdvertisementEntity[] = await this.advertisementService.findAll();
 
-            const adverts = await advertisements.map((advertisement: any) =>
-                [{text: `${advertisement.title}`, web_app: {url: `${urls.update_advertisement_form}/` +  `${advertisement.id}`}}]
+            const adverts = advertisements.map((advertisement: any) =>
+                [{
+                    text: `${advertisement.title}`,
+                    web_app: {url: `${urls.update_advertisement_form}/` + `${advertisement.id}/` + `${chatId}`}
+                }]
             )
 
             if (advertisements.length > 0) {
@@ -111,10 +112,14 @@ export class AdvertisementsBotListService implements OnModuleInit {
 
     async deleteAdvertisement(bot: any, chatId: string, advertisementId: number): Promise<void> {
         try {
-            await this.advertisementService.delete(advertisementId);
-            await bot.sendMessage(chatId, 'Рекламный блок удалён');
+            const currentUser = await this.usersService.getByChatId(chatId);
+            if (currentUser.admin) {
+                await this.advertisementService.delete(advertisementId);
+                await bot.sendMessage(chatId, 'Рекламный блок удалён');
+            }
 
-        }catch (error) {}
+        } catch (error) {
+        }
     }
 
     async onModuleInit(): Promise<void> {

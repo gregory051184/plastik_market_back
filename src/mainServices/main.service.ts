@@ -58,15 +58,15 @@ export class MainService implements OnModuleInit {
 
         telegramBot.onText(/\/start/, async (message: any) => {
 
-            const currentUser: any = await this.usersService.getByChatId(this.commonService.messageChatId(message).toString());
+            //const currentUser: any = await this.usersService.getByChatId(this.commonService.messageChatId(message).toString());
 
-            if (!currentUser.banned && !currentUser.isBot) {
+            //if (!currentUser.banned && !currentUser.isBot) {
 
                 const users: any = await this.usersService.getAll();
                 const usersChatId: any = users.map((user: any) => user.chatId);
                 if (!usersChatId.includes(this.commonService.messageChatId(message).toString())) {
                     const text = `Приветствую, ${message.from.first_name}, нажмите регистрацию для начала работы`;
-                    await this.itemBotService.getAllItemsForMainPageList(telegramBot, +this.commonService.messageChatId(message))
+                    await this.itemBotService.getAllItemsForMainPageList(telegramBot, this.commonService.messageChatId(message))
                     await telegramBot.sendMessage(this.commonService.messageChatId(message), text, registrationMenuKeyboard);
                 } else {
                     const user: any = await this.usersService.getByChatId(this.commonService.messageChatId(message));
@@ -78,7 +78,7 @@ export class MainService implements OnModuleInit {
                     return telegramBot.sendMessage(this.commonService.messageChatId(message), text, await mainUserMenuKeyboard(this.commonService.messageChatId(message)));
 
                 }
-            }
+
 
         });
 
@@ -99,16 +99,25 @@ export class MainService implements OnModuleInit {
                 switch (true) {
                     //CallBack товары
                     case !!this.commonService.callBackData(query).match(/найти_товар_для_покупки_по_названию_админ/g):
-                        return this.itemBotService.getItemsByTitleList(telegramBot,
-                            this.commonService.queryChatId(query), false)
+                        if(currentUser) {
+                            return this.itemBotService.getItemsByTitleList(telegramBot,
+                                this.commonService.queryChatId(query), false)
+                        }
+                        return
 
                     case !!this.commonService.callBackData(query).match(/найти_товар_для_продажи_по_названию_админ/g):
-                        return this.itemBotService.getItemsByTitleList(telegramBot,
-                            this.commonService.queryChatId(query), true);
+                        if(currentUser) {
+                            return this.itemBotService.getItemsByTitleList(telegramBot,
+                                this.commonService.queryChatId(query), true);
+                        }
+                        return
 
                     case !!this.commonService.callBackData(query).match(/more_about_item_\d/g):
-                        return this.itemBotItemService.getItemByIdItem(telegramBot,
-                            this.commonService.queryChatId(query), +this.commonService.callBackData(query).split('_')[3])
+                        if(currentUser) {
+                            return this.itemBotItemService.getItemByIdItem(telegramBot,
+                                this.commonService.queryChatId(query), +this.commonService.callBackData(query).split('_')[3]);
+                        }
+                        return
 
 
                     /*case !!this.commonService.callBackData(query).match(/change_item_\d/g):
@@ -116,47 +125,74 @@ export class MainService implements OnModuleInit {
 
 
                     case !!this.commonService.callBackData(query).match(/удалить_данный_товар_админ_\d/g):
-                        return this.itemsBotFormsService.deleteItemItem(telegramBot,
-                            this.commonService.queryChatId(query), +this.commonService.callBackData(query).split('_')[4])
+                        if(currentUser) {
+                            return this.itemsBotFormsService.deleteItemItem(telegramBot,
+                                this.commonService.queryChatId(query), +this.commonService.callBackData(query).split('_')[4]);
+                        }
+                        return
 
                     case !!this.commonService.callBackData(query).match(/buy_item_\d/g):
-                        return this.usersBotItemsService.profileItem(telegramBot,
-                            this.commonService.queryChatId(query), +this.commonService.callBackData(query).split('_')[2]);
+                        if(currentUser) {
+                            return this.usersBotItemsService.profileItem(telegramBot,
+                                this.commonService.queryChatId(query), +this.commonService.callBackData(query).split('_')[2]);
+                        }
+                        return
 
 
                     //CallBack города
                     case !!this.commonService.callBackData(query).match(/city_for_buying_\d/g):
-                        return this.itemBotService.getItemsByCityList(telegramBot,
-                            this.commonService.queryChatId(query), false, +this.commonService.callBackData(query).split('_')[3]);
+                        if(currentUser) {
+                            return this.itemBotService.getItemsByCityList(telegramBot,
+                                this.commonService.queryChatId(query), false, +this.commonService.callBackData(query).split('_')[3]);
+                        }
+                        return
 
                     case !!this.commonService.callBackData(query).match(/city_for_sale_\d/g):
-                        return this.itemBotService.getItemsByCityList(telegramBot,
-                            this.commonService.queryChatId(query), true, +this.commonService.callBackData(query).split('_')[3]);
+                        if(currentUser) {
+                            return this.itemBotService.getItemsByCityList(telegramBot,
+                                this.commonService.queryChatId(query), true, +this.commonService.callBackData(query).split('_')[3]);
+                        }
+                        return
 
                     case !!this.commonService.callBackData(query).match(/delete_this_city_\d/g):
-                        return this.citiesBotListService.deleteCity(telegramBot, this.commonService.queryChatId(query),
-                            +this.commonService.callBackData(query).split('_')[3]);
+                        if(currentUser) {
+                            return this.citiesBotListService.deleteCity(telegramBot, this.commonService.queryChatId(query),
+                                +this.commonService.callBackData(query).split('_')[3]);
+                        }
+                        return
 
                     //CallBack категории
                     case !!this.commonService.callBackData(query).match(/category_for_buying_\d/g):
-                        return this.itemBotService.getItemsByCategoryList(telegramBot,
-                            this.commonService.queryChatId(query), +this.commonService.callBackData(query).split('_')[3], false);
+                        if(currentUser) {
+                            return this.itemBotService.getItemsByCategoryList(telegramBot,
+                                this.commonService.queryChatId(query), +this.commonService.callBackData(query).split('_')[3], false);
+                        }
+                        return
 
                     case !!this.commonService.callBackData(query).match(/category_for_sale_\d/g):
-                        return this.itemBotService.getItemsByCategoryList(telegramBot,
-                            this.commonService.queryChatId(query), +this.commonService.callBackData(query).split('_')[3], true);
+                        if(currentUser) {
+                            return this.itemBotService.getItemsByCategoryList(telegramBot,
+                                this.commonService.queryChatId(query), +this.commonService.callBackData(query).split('_')[3], true);
+                        }
+                        return
 
                     case !!this.commonService.callBackData(query).match(/delete_this_category_\d/g):
-                        return this.categoriesBotListService.deleteCategory(telegramBot,
-                            this.commonService.queryChatId(query), +this.commonService.callBackData(query).split('_')[3])
+                        if(currentUser) {
+                            return this.categoriesBotListService.deleteCategory(telegramBot,
+                                this.commonService.queryChatId(query), +this.commonService.callBackData(query).split('_')[3]);
+                        }
+                        return
 
                     /*case !!this.commonService.callBackData(query).match(/изменить_данную_категорию_админ_\d/g):
                         return updateCategoryForm(telegramBot, this.commonService.queryChatId(query), +this.commonService.callBackData(query).split('_')[4]);*/
 
                     //CallBack user admin
                     case !!this.commonService.callBackData(query).match(/user_\d/g):
-                        return this.usersBotItemsService.getUserByIdItem(telegramBot,
-                            this.commonService.queryChatId(query), +this.commonService.callBackData(query).split('_')[1])
+                        if(currentUser) {
+                            return this.usersBotItemsService.getUserByIdItem(telegramBot,
+                                this.commonService.queryChatId(query), +this.commonService.callBackData(query).split('_')[1]);
+                        }
+                        return
 
                     case !!this.commonService.callBackData(query).match(/удалить_пользователя_админ_\d/g):
                         return
@@ -166,120 +202,189 @@ export class MainService implements OnModuleInit {
                         return
 
                     case !!this.commonService.callBackData(query).match(/create_or_ban_admin_\d/g):
-                        return this.usersFormsService.createOrBanedAdminForm(telegramBot,
-                            this.commonService.queryChatId(query), +this.commonService.callBackData(query).split('_')[4]);
+                        if(currentUser) {
+                            return this.usersFormsService.createOrBanedAdminForm(telegramBot,
+                                this.commonService.queryChatId(query), +this.commonService.callBackData(query).split('_')[4]);
+                        }
+                        return
 
                     case !!this.commonService.callBackData(query).match(/забанить_\d/g):
-                        return this.usersFormsService.bannedUserForm(telegramBot,
-                            this.commonService.queryChatId(query), +this.commonService.callBackData(query).split('_')[1]);
+                        if(currentUser) {
+                            return this.usersFormsService.bannedUserForm(telegramBot,
+                                this.commonService.queryChatId(query), +this.commonService.callBackData(query).split('_')[1]);
+                        }
+                        return
 
                     //CallBack subCategory
                     case !!this.commonService.callBackData(query).match(/добавить_товар_в_избранное_админ_\d/g):
-                        return this.cartsFormsService.addToFavouritesForm(telegramBot,
-                            this.commonService.queryChatId(query), +this.commonService.callBackData(query).split('_')[5]);
+                        if(currentUser) {
+                            return this.cartsFormsService.addToFavouritesForm(telegramBot,
+                                this.commonService.queryChatId(query), +this.commonService.callBackData(query).split('_')[5]);
+                        }
+                        return
 
                     case !!this.commonService.callBackData(query).match(/удалить_товар_из_корзины_админ_\d/g):
-                        return this.cartsFormsService.deleteItemFromCartForm(telegramBot,
-                            this.commonService.queryChatId(query), +this.commonService.callBackData(query).split('_')[5]);
+                        if(currentUser) {
+                            return this.cartsFormsService.deleteItemFromCartForm(telegramBot,
+                                this.commonService.queryChatId(query), +this.commonService.callBackData(query).split('_')[5]);
+                        }
+                        return
 
                     //Переехал в ItemsBotListsService.ts в getPagination
                     case !!this.commonService.callBackData(query).match(/subCategory_for_buying_\d/g):
-                        return this.itemBotService.getItemsBySubCategoryList(telegramBot,
-                            this.commonService.queryChatId(query), +this.commonService.callBackData(query).split('_')[3],
-                            false);
+                        if(currentUser) {
+                            return this.itemBotService.getItemsBySubCategoryList(telegramBot,
+                                this.commonService.queryChatId(query), +this.commonService.callBackData(query).split('_')[3],
+                                false);
+                        }
+                        return
 
                     //Переехал в ItemsBotListsService.ts в getPagination
                     case !!this.commonService.callBackData(query).match(/subCategory_for_sale_\d/g):
-                        return this.itemBotService.getItemsBySubCategoryList(telegramBot,
-                            this.commonService.queryChatId(query), +this.commonService.callBackData(query).split('_')[3],
-                            true);
+                        if(currentUser) {
+                            return this.itemBotService.getItemsBySubCategoryList(telegramBot,
+                                this.commonService.queryChatId(query), +this.commonService.callBackData(query).split('_')[3],
+                                true);
+                        }
+                        return
 
 
                     //CallBack Реклама User
                     case !!this.commonService.callBackData(query).match(/to_advertisements_list_\d/g)://переход осуществляется через конкретный товар
-                        return this.advertisementsBotListService.getAllAdvertisementsList(telegramBot,
-                            this.commonService.queryChatId(query), +this.commonService.callBackData(query).split('_')[3]);
+                        if(currentUser) {
+                            return this.advertisementsBotListService.getAllAdvertisementsList(telegramBot,
+                                this.commonService.queryChatId(query), +this.commonService.callBackData(query).split('_')[3]);
+                        }
+                        return
 
                     case !!this.commonService.callBackData(query).match(/show_all_advertisements_\d/g):
-                        return this.advertisementsBotListService.getAllAdvertisementsList(telegramBot,
-                            this.commonService.queryChatId(query), +this.commonService.callBackData(query).split('_')[3])
+                        if(currentUser) {
+                            return this.advertisementsBotListService.getAllAdvertisementsList(telegramBot,
+                                this.commonService.queryChatId(query), +this.commonService.callBackData(query).split('_')[3]);
+                        }
+                        return
 
                     /*case !!this.commonService.callBackData(query).match(/change_advertisement_\d/g):
                         return updateAdvertisementForm(telegramBot, this.commonService.queryChatId(query), +this.commonService.callBackData(query).split('_')[2]);*/
 
                     case !!this.commonService.callBackData(query).match(/more_about_advertisement_\d_\d/g):
-                        return this.advertisementsItemsService.getAdvertisementByIdItem(telegramBot,
-                            this.commonService.queryChatId(query), +this.commonService.callBackData(query).split('_')[3],
-                            +this.commonService.callBackData(query).split('_')[4]);
+                        if(currentUser) {
+                            return this.advertisementsItemsService.getAdvertisementByIdItem(telegramBot,
+                                this.commonService.queryChatId(query), +this.commonService.callBackData(query).split('_')[3],
+                                +this.commonService.callBackData(query).split('_')[4]);
+                        }
+                        return
 
                     case !!this.commonService.callBackData(query).match(/buy_advertisement_\d_\d/g):
-                        return this.advertisementsItemsService.advertisementPayPageItem(telegramBot,
-                            this.commonService.queryChatId(query), +this.commonService.callBackData(query).split('_')[2],
-                            +this.commonService.callBackData(query).split('_')[3])
+                        if(currentUser) {
+                            return this.advertisementsItemsService.advertisementPayPageItem(telegramBot,
+                                this.commonService.queryChatId(query), +this.commonService.callBackData(query).split('_')[2],
+                                +this.commonService.callBackData(query).split('_')[3]);
+                        }
+                        return
 
                     //CallBack Реклама Admin
                     case !!this.commonService.callBackData(query).match(/delete_this_advertisement_\d/g):
-                        return this.advertisementsBotListService.deleteAdvertisement(telegramBot,
-                            this.commonService.queryChatId(query), +this.commonService.callBackData(query).split('_')[3])
+                        if(currentUser) {
+                            return this.advertisementsBotListService.deleteAdvertisement(telegramBot,
+                                this.commonService.queryChatId(query), +this.commonService.callBackData(query).split('_')[3]);
+                        }
+                        return
 
 
                     //CallBack Пользователь
 
                     //CallBack Товары Пользователь
                     case !!this.commonService.callBackData(query).match(/найти_товар_для_покупки_по_названию_пользователь/g):
-                        return this.itemBotService.getItemsByTitleList(telegramBot,
-                            this.commonService.queryChatId(query), false);
+                        if(currentUser) {
+                            return this.itemBotService.getItemsByTitleList(telegramBot,
+                                this.commonService.queryChatId(query), false);
+                        }
+                        return
 
                     case !!this.commonService.callBackData(query).match(/mark_item_as_sold_\d/g):
-                        return this.itemsBotFormsService.markItemAsSoldForm(telegramBot,
-                            this.commonService.queryChatId(query), +this.commonService.callBackData(query).split('_')[4]);
+                        if(currentUser) {
+                            return this.itemsBotFormsService.markItemAsSoldForm(telegramBot,
+                                this.commonService.queryChatId(query), +this.commonService.callBackData(query).split('_')[4]);
+                        }
+                        return
 
                     case !!this.commonService.callBackData(query).match(/mark_item_as_not_sold_\d/g):
-                        return this.itemsBotFormsService.markItemAsNotSoldForm(telegramBot,
-                            this.commonService.queryChatId(query), +this.commonService.callBackData(query).split('_')[5]);
+                        if(currentUser) {
+                            return this.itemsBotFormsService.markItemAsNotSoldForm(telegramBot,
+                                this.commonService.queryChatId(query), +this.commonService.callBackData(query).split('_')[5]);
+                        }
+                        return
 
                     case !!this.commonService.callBackData(query).match(/найти_товар_для_продажи_по_названию_пользователь/g):
-                        return this.itemBotService.getItemsByTitleList(telegramBot,
-                            this.commonService.queryChatId(query), true);
+                        if(currentUser) {
+                            return this.itemBotService.getItemsByTitleList(telegramBot,
+                                this.commonService.queryChatId(query), true);
+                        }
+                        return
 
                     case !!this.commonService.callBackData(query).match(/удалить_данный_товар_пользователь_\d/g):
-                        return this.itemsBotFormsService.deleteItemItem(telegramBot,
-                            this.commonService.queryChatId(query), +this.commonService.callBackData(query).split('_')[4]);
+                        if(currentUser) {
+                            return this.itemsBotFormsService.deleteItemItem(telegramBot,
+                                this.commonService.queryChatId(query), +this.commonService.callBackData(query).split('_')[4]);
+                        }
+                        return
 
                     //CallBack subCategory Admin
                     case !!this.commonService.callBackData(query).match(/delete_this_subCategory_\d/g):
-                        return this.subCategoriesBotListService.deleteSubCategory(telegramBot,
-                            this.commonService.queryChatId(query), +this.commonService.callBackData(query).split('_')[3])
+                        if(currentUser) {
+                            return this.subCategoriesBotListService.deleteSubCategory(telegramBot,
+                                this.commonService.queryChatId(query), +this.commonService.callBackData(query).split('_')[3]);
+                        }
+                        return
 
                     case !!this.commonService.callBackData(query).match(/добавить_товар_в_избранное_пользователь_\d/g):
-                        return this.cartsFormsService.addToFavouritesForm(telegramBot,
-                            this.commonService.queryChatId(query), +this.commonService.callBackData(query).split('_')[5]);
+                        if(currentUser) {
+                            return this.cartsFormsService.addToFavouritesForm(telegramBot,
+                                this.commonService.queryChatId(query), +this.commonService.callBackData(query).split('_')[5]);
+                        }
+                        return
 
 
                     case !!this.commonService.callBackData(query).match(/удалить_из_корзины_пользователь_\d/g):
-                        return this.cartsFormsService.deleteItemFromCartForm(telegramBot,
-                            this.commonService.queryChatId(query), +this.commonService.callBackData(query).split('_')[5]);
+                        if(currentUser) {
+                            return this.cartsFormsService.deleteItemFromCartForm(telegramBot,
+                                this.commonService.queryChatId(query), +this.commonService.callBackData(query).split('_')[5]);
+                        }
+                        return
 
                     //CallBack subscribe Admin
                     case !!this.commonService.callBackData(query).match(/delete_this_subscribe_\d/g):
-                        return this.subscribesBotListService.deleteSubscribe(telegramBot,
-                            this.commonService.queryChatId(query), +this.commonService.callBackData(query).split('_')[3]);
+                        if(currentUser) {
+                            return this.subscribesBotListService.deleteSubscribe(telegramBot,
+                                this.commonService.queryChatId(query), +this.commonService.callBackData(query).split('_')[3]);
+                        }
+                        return
 
                     //CallBack subscribe User
                     case !!this.commonService.callBackData(query).match(/subscribe_\d/g):
-                        return this.subscribeBotItemsService.getSubscribeById(telegramBot,
-                            this.commonService.queryChatId(query),
-                            +this.commonService.callBackData(query).split('_')[1]);
+                        if(currentUser) {
+                            return this.subscribeBotItemsService.getSubscribeById(telegramBot,
+                                this.commonService.queryChatId(query),
+                                +this.commonService.callBackData(query).split('_')[1]);
+                        }
+                        return
 
                     case !!this.commonService.callBackData(query).match(/buy_this_subscribe_\d/g):
-                        return this.subscribeBotItemsService.subscribePayPageItem(telegramBot,
-                            this.commonService.queryChatId(query),
-                            +this.commonService.callBackData(query).split('_')[3]);
+                        if(currentUser) {
+                            return this.subscribeBotItemsService.subscribePayPageItem(telegramBot,
+                                this.commonService.queryChatId(query),
+                                +this.commonService.callBackData(query).split('_')[3]);
+                        }
+                        return
 
                     case !!this.commonService.callBackData(query).match(/get_user_by_id_\d/g):
-                        return this.usersBotItemsService.getUserByIdItem(telegramBot,
-                            this.commonService.queryChatId(query),
-                            +this.commonService.callBackData(query).split('_')[4])
+                        if(currentUser) {
+                            return this.usersBotItemsService.getUserByIdItem(telegramBot,
+                                this.commonService.queryChatId(query),
+                                +this.commonService.callBackData(query).split('_')[4]);
+                        }
+                        return
 
                 }
             }

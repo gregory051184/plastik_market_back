@@ -36,7 +36,7 @@ export class CitiesBotListService implements OnModuleInit {
                     //await bot.sendMessage(chatId, `Город удалён`)
                     //})
                     if (currentUser.admin) {
-                        await bot.sendMessage(chatId, '*****МЕНЮ ГОРОДОВ*****', citiesAdminMenuKeyboard);
+                        await bot.sendMessage(chatId, '*****МЕНЮ ГОРОДОВ*****', citiesAdminMenuKeyboard(chatId.toString()));
                     }
                     if (!currentUser.admin) {
                         await bot.sendMessage(chatId, '*****МЕНЮ ГОРОДОВ*****', citiesUserMenuKeyboard);
@@ -59,7 +59,7 @@ export class CitiesBotListService implements OnModuleInit {
                     //await bot.sendMessage(chatId, `Город удалён`)
                     //})
                     if (currentUser.admin) {
-                        await bot.sendMessage(chatId, '*****МЕНЮ ГОРОДОВ*****', citiesAdminMenuKeyboard);
+                        await bot.sendMessage(chatId, '*****МЕНЮ ГОРОДОВ*****', citiesAdminMenuKeyboard(chatId.toString()));
                     }
                     if (!currentUser.admin) {
                         await bot.sendMessage(chatId, '*****МЕНЮ ГОРОДОВ*****', citiesUserMenuKeyboard);
@@ -103,7 +103,7 @@ export class CitiesBotListService implements OnModuleInit {
                             //await bot.sendMessage(chatId, `Город удалён`)
                             //})
                             if (currentUser.admin) {
-                                await bot.sendMessage(chatId, '*****МЕНЮ ГОРОДОВ*****', citiesAdminMenuKeyboard);
+                                await bot.sendMessage(chatId, '*****МЕНЮ ГОРОДОВ*****', citiesAdminMenuKeyboard(chatId.toString()));
                             }
                             if (!currentUser.admin) {
                                 await bot.sendMessage(chatId, '*****МЕНЮ ГОРОДОВ*****', citiesUserMenuKeyboard);
@@ -126,7 +126,7 @@ export class CitiesBotListService implements OnModuleInit {
                             //await bot.sendMessage(chatId, `Город удалён`)
                             //})
                             if (currentUser.admin) {
-                                await bot.sendMessage(chatId, '*****МЕНЮ ГОРОДОВ*****', citiesAdminMenuKeyboard);
+                                await bot.sendMessage(chatId, '*****МЕНЮ ГОРОДОВ*****', citiesAdminMenuKeyboard(chatId.toString()));
                             }
                             if (!currentUser.admin) {
                                 await bot.sendMessage(chatId, '*****МЕНЮ ГОРОДОВ*****', citiesUserMenuKeyboard);
@@ -152,12 +152,11 @@ export class CitiesBotListService implements OnModuleInit {
     }
 
     async getAllCitiesForUpdateList(bot: any, chatId: string): Promise<void> {
-
         try {
-            const cities: CityEntity[] = await this.citiesService.getAll();
 
-            const cit = await cities.map((city: any) =>
-                [{text: `${city.title}`, web_app: {url: `${urls.update_city_form}/` +  `${city.id}`}}]
+            const cities: CityEntity[] = await this.citiesService.getAll();
+            const cit = cities.map((city: any) =>
+                [{text: `${city.title}`, web_app: {url: `${urls.update_city_form}/` + `${city.id}/` + `${chatId}`}}]
             )
 
             if (cities.length > 0) {
@@ -182,7 +181,7 @@ export class CitiesBotListService implements OnModuleInit {
         try {
             const cities: CityEntity[] = await this.citiesService.getAll();
 
-            const cit = await cities.map((city: any) =>
+            const cit = cities.map((city: any) =>
                 [{text: `${city.title}`, callback_data: `delete_this_city_${city.id}`}]
             )
 
@@ -205,9 +204,12 @@ export class CitiesBotListService implements OnModuleInit {
 
     async deleteCity(bot: any, chatId: string, cityId: number): Promise<void> {
         try {
-            await this.citiesService.delete(cityId);
-            await bot.sendMessage(chatId, 'Город удалён');
-
-        }catch (error) {}
+            const currentUser = await this.usersService.getByChatId(chatId);
+            if(currentUser.admin) {
+                await this.citiesService.delete(cityId, chatId);
+                await bot.sendMessage(chatId, 'Город удалён');
+            }
+        } catch (error) {
+        }
     }
 }

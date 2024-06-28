@@ -51,13 +51,13 @@ import {SubCategoriesFormsService} from "./subCategory/services/forms/subCategor
 import {CategoriesBotFormsService} from "./category/services/forms/categoriesBotForms.service";
 import {SubCategoryController} from "./subCategory/subCategory.controller";
 import {SubscribeService} from "./subscription/services/subscribe.service";
-/*import {MainServicesModule} from "./mainServices/mainServices.module";
-import {MainServicesController} from "./mainServices/mainServices.controller";*/
+import { ScheduleModule } from '@nestjs/schedule'
+import {TasksService} from "./task/tasks.service";
 
 
 @Module({
     imports: [
-        //MainServicesModule,
+        ScheduleModule.forRoot(),
         CommonModule,
         PlastikMarketDbModule,
         UsersModule,
@@ -117,7 +117,8 @@ import {MainServicesController} from "./mainServices/mainServices.controller";*/
         FilterService,
         SubCategoryService,
         SubCategoriesFormsService,
-        CategoriesBotFormsService
+        CategoriesBotFormsService,
+        TasksService
     ]
 })
 export class AppModule {

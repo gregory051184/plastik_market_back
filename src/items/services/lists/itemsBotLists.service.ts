@@ -694,9 +694,9 @@ export class ItemsBotListsService {
     }
 
 
-    async getAllItemsForMainPageList(bot: any, chatId: number): Promise<any> {
+    async getAllItemsForMainPageList(bot: any, chatId: string): Promise<any> {
         try {
-            const items: any = await this.itemService.getAll();
+            const items: any = await this.itemService.getAll(chatId);
             if (items.length > 0) {
                 items.map(async (item: any) => {
                     await bot.sendPhoto(

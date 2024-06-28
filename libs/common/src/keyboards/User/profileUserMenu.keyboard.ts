@@ -10,7 +10,7 @@ export const profileUserMenuKeyboard = async (userId: number) => {
                 [{text: userButtons.profile.subscribe, callback_data: userCallback.profile.subscribe}],
                 [{
                     text: userButtons.profile.changeProfile,
-                    web_app: {url: `https://723d-5-164-183-17.ngrok-free.app/update/user/${userId}`}
+                    web_app: {url: `https://70b6-5-164-183-17.ngrok-free.app/update/user/${userId}`}
                 }],
                 /*[{
                     text: userButtons.profile.changeProfile,

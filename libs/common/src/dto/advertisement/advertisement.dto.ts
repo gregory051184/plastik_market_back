@@ -11,6 +11,9 @@ export class AdvertisementDto {
     @IsString({message: "Должно быть строкой"})
     description: string;
 
+    @IsNumber({}, {message: 'Должно быть число'})
+    userId: number;
+
     //@IsString({message: "Должно быть строкой"})
     //startDate: string;
 

@@ -15,9 +15,9 @@ export class CityController {
 
     };
 
-    @Patch()
-    async update(@Body() cityUpdateDto: CityUpdateDto): Promise<void> {
-        return await this.cityService.update(cityUpdateDto);
+    @Patch('/:chatId')
+    async update(@Param('chatId') chatId: string, @Body() cityUpdateDto: CityUpdateDto): Promise<void> {
+        return await this.cityService.update(cityUpdateDto, chatId);
     };
 
     @Get('/all')
@@ -30,8 +30,8 @@ export class CityController {
         return await this.cityService.getById(id)
     };
 
-    @Delete('/:id')
-    async delete(@Param('id') id: number): Promise<void> {
-        return await this.cityService.delete(id);
-    };
+    /*@Delete('/:id/:chatId')
+    async delete(@Param('id') id: number, @Param('chatId') chatId: string): Promise<void> {
+        return await this.cityService.delete(id, chatId);
+    };*/
 }

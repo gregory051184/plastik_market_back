@@ -47,116 +47,175 @@ export class UserService {
     async userHandlersService(bot: any, message: any): Promise<void> {
         const currentUser: any = await this.usersService.getByChatId(this.commonService.messageChatId(message).toString());
 
-        if (!currentUser.banned && !currentUser.isBot) {
+        //if (!currentUser.banned && !currentUser.isBot) {
 
-            switch (this.commonService.messageText(message)) {
+        switch (this.commonService.messageText(message)) {
 
-                //*****Главное меню Пользователь*****
+            //*****Главное меню Пользователь*****
 
-                //Переход в расширенный поиск
-                case userButtons.mainMenu.itemsFilter:
+            //Переход в расширенный поиск
+            case userButtons.mainMenu.itemsFilter:
+                if (currentUser && !currentUser.banned && !currentUser.isBot) {
                     await bot.deleteMessage(this.commonService.messageChatId(message), message.message_id)
                     return bot.sendMessage(this.commonService.messageChatId(message), '*****РАСШИРЕННЫЙ ПОИСК*****',
                         itemsFilterUserMenuKeyboard);
+                }
+                return
 
-                //Переход в меню товаров Пользователь
-                case userButtons.mainMenu.items:
+
+            //Переход в меню товаров Пользователь
+            case userButtons.mainMenu.items:
+                if (currentUser && !currentUser.banned && !currentUser.isBot) {
                     await bot.deleteMessage(this.commonService.messageChatId(message), message.message_id)
                     return this.itemBotService.getAllItemsList(bot, this.commonService.messageChatId(message));
+                }
+                return
 
-                //Переход в избранное Пользователь
-                case userButtons.mainMenu.cart:
+            //Переход в избранное Пользователь
+            case userButtons.mainMenu.cart:
+                if (currentUser && !currentUser.banned && !currentUser.isBot) {
                     await bot.deleteMessage(this.commonService.messageChatId(message), message.message_id)
                     return this.cartsBotItemsService.myCartItem(bot, this.commonService.messageChatId(message));
+                }
+                return
 
-                case userButtons.carts.deleteAllItemsFromCart:
+            case userButtons.carts.deleteAllItemsFromCart:
+                if (currentUser && !currentUser.banned && !currentUser.isBot) {
                     await bot.deleteMessage(this.commonService.messageChatId(message), message.message_id)
-                    return this.cartsBotItemsService.deleteAllItemsFromCart(bot, this.commonService.messageChatId(message))
+                    return this.cartsBotItemsService.deleteAllItemsFromCart(bot, this.commonService.messageChatId(message));
+                }
+                return
 
-                //*****Меню товаров Пользователь*****
-                case userButtons.items.myItems:
+            //*****Меню товаров Пользователь*****
+            case userButtons.items.myItems:
+                if (currentUser && !currentUser.banned && !currentUser.isBot) {
                     await bot.deleteMessage(this.commonService.messageChatId(message), message.message_id)
                     return this.itemBotService.getAllMyItemsList(bot, this.commonService.messageChatId(message));
+                }
+                return
 
-                case userButtons.items.buyItem:
+            case userButtons.items.buyItem:
+                if (currentUser && !currentUser.banned && !currentUser.isBot) {
                     await bot.deleteMessage(this.commonService.messageChatId(message), message.message_id)
                     return this.itemBotService.getItemForBuyingList(bot, this.commonService.messageChatId(message));
+                }
+                return
 
-                case userButtons.items.saleItem:
+            case userButtons.items.saleItem:
+                if (currentUser && !currentUser.banned && !currentUser.isBot) {
                     await bot.deleteMessage(this.commonService.messageChatId(message), message.message_id)
                     return this.itemBotService.getItemsForSaleList(bot, this.commonService.messageChatId(message));
+                }
+                return
 
-                case userButtons.items.cancel:
+            case userButtons.items.cancel:
+                if (currentUser && !currentUser.banned && !currentUser.isBot) {
                     await bot.deleteMessage(this.commonService.messageChatId(message), message.message_id)
                     return bot.sendMessage(this.commonService.messageChatId(message), '*****МЕНЮ ПОЛЬЗОВАТЕЛЯ*****',
                         await mainUserMenuKeyboard(this.commonService.messageChatId(message)));
+                }
+                return
 
 
-                //*****Меню товаров для покупки Пользователь*****
+            //*****Меню товаров для покупки Пользователь*****
 
-                case userButtons.buyItems.itemSubCategories:
+            case userButtons.buyItems.itemSubCategories:
+                if (currentUser && !currentUser.banned && !currentUser.isBot) {
                     await bot.deleteMessage(this.commonService.messageChatId(message), message.message_id)
                     return bot.sendMessage(this.commonService.messageChatId(message), '*****МЕНЮ ПОДКАТЕГОРИЙ (ПОКУПКА)*****',
                         subCategoriesUserMenuKeyboard);
+                }
+                return
 
-                case userButtons.buyItems.findByTitle:
+            case userButtons.buyItems.findByTitle:
+                if (currentUser && !currentUser.banned && !currentUser.isBot) {
                     await bot.deleteMessage(this.commonService.messageChatId(message), message.message_id)
                     return this.itemBotService.getItemsByTitleList(bot, this.commonService.messageChatId(message), false);
+                }
+                return
 
 
-                //*****Меню товаров для продажи Пользователь*****
+            //*****Меню товаров для продажи Пользователь*****
 
-                case userButtons.saleItems.itemSubCategories:
+            case userButtons.saleItems.itemSubCategories:
+                if (currentUser && !currentUser.banned && !currentUser.isBot) {
                     await bot.deleteMessage(this.commonService.messageChatId(message), message.message_id)
                     return bot.sendMessage(this.commonService.messageChatId(message), '*****МЕНЮ ПОДКАТЕГОРИЙ (ПРОДАЖА)*****',
                         subCategoriesUserMenuKeyboard);
+                }
+                return
 
-                /*case userButtons.saleItems.itemsFilter:
-                    return itemCityCategoryPriceFilter(bot, this.commonService.queryChatId(message), true);*/
+            /*case userButtons.saleItems.itemsFilter:
+                return itemCityCategoryPriceFilter(bot, this.commonService.queryChatId(message), true);*/
 
-                case userButtons.saleItems.findByTitle:
+            case userButtons.saleItems.findByTitle:
+                if (currentUser && !currentUser.banned && !currentUser.isBot) {
                     await bot.deleteMessage(this.commonService.messageChatId(message), message.message_id)
                     return this.itemBotService.getItemsByTitleList(bot, this.commonService.messageChatId(message), false);
+                }
+                return
 
 
-                //Переход в меню категорий товаров для продажи Пользователь
-                case userButtons.saleItems.itemCategories:
+            //Переход в меню категорий товаров для продажи Пользователь
+            case userButtons.saleItems.itemCategories:
+                if (currentUser && !currentUser.banned && !currentUser.isBot) {
                     await bot.deleteMessage(this.commonService.messageChatId(message), message.message_id)
                     return bot.sendMessage(this.commonService.messageChatId(message), '*****МЕНЮ КАТЕГОРИЙ (ПРОДАЖА)*****', categoriesUserMenuKeyboard);
+                }
+                return
 
 
-                //*****Общее Пользователь*****
+            //*****Общее Пользователь*****
 
-                //Меню городов Пользователь
-                case userButtons.cities.getItemsByCityForSale:
+            //Меню городов Пользователь
+            case userButtons.cities.getItemsByCityForSale:
+                if (currentUser && !currentUser.banned && !currentUser.isBot) {
                     await bot.deleteMessage(this.commonService.messageChatId(message), message.message_id)
                     return this.citiesBotListService.getCityByTitleList(bot, this.commonService.messageChatId(message), true)
+                }
+                return
 
-                case userButtons.cities.getItemsByCityForBuying:
+            case userButtons.cities.getItemsByCityForBuying:
+                if (currentUser && !currentUser.banned && !currentUser.isBot) {
                     await bot.deleteMessage(this.commonService.messageChatId(message), message.message_id)
-                    return this.citiesBotListService.getCityByTitleList(bot, this.commonService.messageChatId(message), false)
+                    return this.citiesBotListService.getCityByTitleList(bot, this.commonService.messageChatId(message), false);
+                }
+                return
 
-                case userButtons.cities.cancel:
+            case userButtons.cities.cancel:
+                if (currentUser && !currentUser.banned && !currentUser.isBot) {
                     await bot.deleteMessage(this.commonService.messageChatId(message), message.message_id)
                     return bot.sendMessage(this.commonService.messageChatId(message), '*****МЕНЮ ПОЛЬЗОВАТЕЛЯ*****',
                         await mainUserMenuKeyboard(this.commonService.messageChatId(message)));
+                }
+                return
 
-                //Меню категорий
-                case userButtons.categories.cancel:
+            //Меню категорий
+            case userButtons.categories.cancel:
+                if (currentUser && !currentUser.banned && !currentUser.isBot) {
                     await bot.deleteMessage(this.commonService.messageChatId(message), message.message_id)
                     return bot.sendMessage(this.commonService.messageChatId(message), '*****МЕНЮ ПОЛЬЗОВАТЕЛЯ*****',
                         await mainUserMenuKeyboard(this.commonService.messageChatId(message)));
+                }
+                return
 
-                case userButtons.categories.getItemsByCategoryForBuying:
+            case userButtons.categories.getItemsByCategoryForBuying:
+                if (currentUser && !currentUser.banned && !currentUser.isBot) {
                     await bot.deleteMessage(this.commonService.messageChatId(message), message.message_id)
                     return this.categoriesBotListsService.getAllCategoriesList(bot, this.commonService.messageChatId(message), false);
+                }
+                return
 
-                case userButtons.categories.getItemsByCategoryForSale:
+            case userButtons.categories.getItemsByCategoryForSale:
+                if (currentUser && !currentUser.banned && !currentUser.isBot) {
                     await bot.deleteMessage(this.commonService.messageChatId(message), message.message_id)
                     return this.categoriesBotListsService.getAllCategoriesList(bot, this.commonService.messageChatId(message), true);
+                }
+                return
 
-                //Переход в меню профиля пользователя
-                case userButtons.mainMenu.myProfile:
+            //Переход в меню профиля пользователя
+            case userButtons.mainMenu.myProfile:
+                if (currentUser && !currentUser.banned && !currentUser.isBot) {
                     await bot.deleteMessage(this.commonService.messageChatId(message), message.message_id)
                     try {
                         const currentUser = await this.usersService.getByChatId(this.commonService.messageChatId(message))
@@ -167,53 +226,81 @@ export class UserService {
                     } catch (error) {
                         bot.sendMessage(this.commonService.messageChatId(message), 'Произошла непредвиденная ошибка')
                     }
-                    return
+                }
+                return
 
 
-                //Меню профиля пользователя
-                case userButtons.profile.subscribe:
+            //Меню профиля пользователя
+            case userButtons.profile.subscribe:
+                if(currentUser && !currentUser.banned && !currentUser.isBot) {
                     await bot.deleteMessage(this.commonService.messageChatId(message), message.message_id)
                     return this.subscribesBotListService.getAllSubscribesList(bot, this.commonService.messageChatId(message));
+                }
+                return
 
-                case userButtons.profile.mySoldItems:
+            case userButtons.profile.mySoldItems:
+                if(currentUser && !currentUser.banned && !currentUser.isBot) {
                     await bot.deleteMessage(this.commonService.messageChatId(message), message.message_id)
                     return this.itemBotService.getSoldItemsByOwner(bot, this.commonService.messageChatId(message));
+                }
+                return
 
-                case userButtons.profile.cancel:
+            case userButtons.profile.cancel:
+                if(currentUser && !currentUser.banned && !currentUser.isBot) {
                     await bot.deleteMessage(this.commonService.messageChatId(message), message.message_id)
                     return bot.sendMessage(this.commonService.messageChatId(message), '*****МЕНЮ ПОЛЬЗОВАТЕЛЯ*****',
                         await mainUserMenuKeyboard(this.commonService.messageChatId(message)));
+                }
+                return
 
 
-                //Меню подкатегорий
-                case userButtons.subCategories.getItemsBySubCategoryForBuying:
+            //Меню подкатегорий
+            case userButtons.subCategories.getItemsBySubCategoryForBuying:
+                if(currentUser && !currentUser.banned && !currentUser.isBot) {
                     await bot.deleteMessage(this.commonService.messageChatId(message), message.message_id)
                     return this.subCategoriesBotListService.getAllSubCategoriesList(bot, this.commonService.messageChatId(message), false);
+                }
+                return
 
-                case userButtons.subCategories.getItemsBySubCategoryForSale:
+            case userButtons.subCategories.getItemsBySubCategoryForSale:
+                if(currentUser && !currentUser.banned && !currentUser.isBot) {
                     await bot.deleteMessage(this.commonService.messageChatId(message), message.message_id)
                     return this.subCategoriesBotListService.getAllSubCategoriesList(bot, this.commonService.messageChatId(message), true);
+                }
+                return
 
-                case userButtons.subCategories.cancel:
+            case userButtons.subCategories.cancel:
+                if(currentUser && !currentUser.banned && !currentUser.isBot) {
                     await bot.deleteMessage(this.commonService.messageChatId(message), message.message_id)
                     return bot.sendMessage(this.commonService.messageChatId(message), '*****МЕНЮ ПОЛЬЗОВАТЕЛЯ*****',
                         await mainUserMenuKeyboard(this.commonService.messageChatId(message)));
+                }
+                return
 
-                //Меню расширенного поиска
-                case userButtons.itemsFilers.forBuying:
+            //Меню расширенного поиска
+            case userButtons.itemsFilers.forBuying:
+                if(currentUser && !currentUser.banned && !currentUser.isBot) {
                     await bot.deleteMessage(this.commonService.messageChatId(message), message.message_id)
                     return await this.itemBotService.itemsFilter(bot, this.commonService.messageChatId(message), false);
+                }
+                return
 
-                case userButtons.itemsFilers.forSale:
+            case userButtons.itemsFilers.forSale:
+                if(currentUser && !currentUser.banned && !currentUser.isBot) {
                     await bot.deleteMessage(this.commonService.messageChatId(message), message.message_id)
                     return await this.itemBotService.itemsFilter(bot, this.commonService.messageChatId(message), true);
+                }
+                return
 
-                case userButtons.itemsFilers.cancel:
+            case userButtons.itemsFilers.cancel:
+                if(currentUser && !currentUser.banned && !currentUser.isBot) {
                     await bot.deleteMessage(this.commonService.messageChatId(message), message.message_id)
                     return bot.sendMessage(this.commonService.messageChatId(message), '*****МЕНЮ ПОЛЬЗОВАТЕЛЯ*****',
                         await mainUserMenuKeyboard(this.commonService.messageChatId(message)));
-            }
+                }
+                return
         }
+        //}
 
     }
 }

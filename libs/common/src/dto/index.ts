@@ -12,3 +12,4 @@ export * from './advertisement/advertisementUpdate.dto';
 export * from './item/itemsFilter.dto';
 export * from './subCategory/subCategoryUpdate.dto';
 export * from './subCategory/subCategory.dto';
+export * from './item/checkFile.dto';

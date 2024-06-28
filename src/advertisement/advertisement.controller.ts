@@ -14,9 +14,9 @@ export class AdvertisementController {
         return await this.advertisementService.create(advertisementDto);
     };
 
-    @Patch()
-    async update(@Body() advertisementUpdateDto: AdvertisementUpdateDto): Promise<void> {
-        return await this.advertisementService.update(advertisementUpdateDto);
+    @Patch('/:chatId')
+    async update(@Param('chatId') chatId: string, @Body() advertisementUpdateDto: AdvertisementUpdateDto): Promise<void> {
+        return await this.advertisementService.update(advertisementUpdateDto, chatId);
     };
 
     @Get('/all')

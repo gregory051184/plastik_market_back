@@ -1,12 +1,14 @@
 import {Injectable, OnModuleInit} from "@nestjs/common";
 import {SubCategoryService} from "../subCategory.service";
 import {AdvertisementEntity, CityEntity, SubCategoryEntity, urls} from "@app/common";
+import {UsersService} from "../../../users/services/users.service";
 
 
 @Injectable()
 export class SubCategoriesBotListService implements OnModuleInit {
     constructor(
-        private readonly subCategoriesService: SubCategoryService
+        private readonly subCategoriesService: SubCategoryService,
+        private readonly usersService: UsersService
     ) {
     }
 
@@ -63,7 +65,7 @@ export class SubCategoriesBotListService implements OnModuleInit {
 
             if (subCategories.length > 0) {
                 if (!forSale) {
-                    const cats = await subCategories.map((subCategory: any) =>
+                    const cats = subCategories.map((subCategory: any) =>
                         [{text: `${subCategory.title}`, callback_data: `subCategory_for_buying_${subCategory.id}`}]
                     )
                     await bot.sendMessage(
@@ -77,7 +79,7 @@ export class SubCategoriesBotListService implements OnModuleInit {
                     )
                 }
                 if (forSale) {
-                    const cats = await subCategories.map((subCategory: any) =>
+                    const cats = subCategories.map((subCategory: any) =>
                         [{text: `${subCategory.title}`, callback_data: `subCategory_for_sale_${subCategory.id}`}]
                     )
                     await bot.sendMessage(
@@ -103,10 +105,10 @@ export class SubCategoriesBotListService implements OnModuleInit {
         try {
             const subCategories: SubCategoryEntity[] = await this.subCategoriesService.getAll();
 
-            const subCat = await subCategories.map((subCategory: any) =>
+            const subCat = subCategories.map((subCategory: any) =>
                 [{
                     text: `${subCategory.title}`,
-                    web_app: {url: `${urls.update_subcategory_form}/` + `${subCategory.id}`}
+                    web_app: {url: `${urls.update_subcategory_form}/` + `${subCategory.id}/` + `${chatId}`}
                 }]
             )
 
@@ -132,7 +134,7 @@ export class SubCategoriesBotListService implements OnModuleInit {
         try {
             const subCategories: SubCategoryEntity[] = await this.subCategoriesService.getAll();
 
-            const subCats = await subCategories.map((subCategory: any) =>
+            const subCats = subCategories.map((subCategory: any) =>
                 [{text: `${subCategory.title}`, callback_data: `delete_this_subCategory_${subCategory.id}`}]
             )
 
@@ -156,10 +158,13 @@ export class SubCategoriesBotListService implements OnModuleInit {
 
     async deleteSubCategory(bot: any, chatId: string, subCategoryId: number): Promise<void> {
         try {
-            await this.subCategoriesService.delete(subCategoryId);
-            await bot.sendMessage(chatId, 'Подкатегория удалена');
-
-        }catch (error) {}
+            const currentUser = await this.usersService.getByChatId(chatId.toString())
+            if (currentUser.admin) {
+                await this.subCategoriesService.delete(subCategoryId);
+                await bot.sendMessage(chatId, 'Подкатегория удалена');
+            }
+        } catch (error) {
+        }
     }
 
 }

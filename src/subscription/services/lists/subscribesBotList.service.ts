@@ -43,7 +43,7 @@ export class SubscribesBotListService implements OnModuleInit {
                 //await bot.sendMessage(chatId, `Город удалён`)
                 //})
                 if (currentUser.admin) {
-                    await bot.sendMessage(chatId, '*****МЕНЮ ПОДПИСОК АДМИН*****', subscribeAdminMenuKeyboard);
+                    await bot.sendMessage(chatId, '*****МЕНЮ ПОДПИСОК АДМИН*****', await subscribeAdminMenuKeyboard(chatId));
                 }
                 if (!currentUser.admin) {
                     await bot.sendMessage(chatId, '*****МЕНЮ ПОДПИСОК ПОЛЬЗОВАТЕЛЬ*****', subscribeUserMenuKeyboard);
@@ -53,7 +53,7 @@ export class SubscribesBotListService implements OnModuleInit {
                 await bot.sendMessage(chatId, 'Подписки пока не внесены')
 
                 if (currentUser.admin) {
-                    await bot.sendMessage(chatId, '*****МЕНЮ ПОДПИСОК АДМИН*****', subscribeAdminMenuKeyboard);
+                    await bot.sendMessage(chatId, '*****МЕНЮ ПОДПИСОК АДМИН*****', await subscribeAdminMenuKeyboard(chatId));
                 }
                 if (!currentUser.admin) {
                     await bot.sendMessage(chatId, '*****МЕНЮ ПОДПИСОК ПОЛЬЗОВАТЕЛЬ*****', subscribeUserMenuKeyboard);
@@ -74,8 +74,11 @@ export class SubscribesBotListService implements OnModuleInit {
             const currentUser: any = await this.usersService.getByChatId(chatId.toString());
             if (currentUser.admin) {
                 const subscribes: SubscriptionEntity[] = await this.subscribesService.getAll();
-                const sub = await subscribes.map((subscribe: any) =>
-                    [{text: `${subscribe.title}`, web_app: {url: `${urls.update_subscribe_form}/` + `${subscribe.id}`}}]
+                const sub = subscribes.map((subscribe: any) =>
+                    [{
+                        text: `${subscribe.title}`,
+                        web_app: {url: `${urls.update_subscribe_form}/` + `${subscribe.id}/` + `${chatId}`}
+                    }]
                 )
                 if (subscribes.length > 0) {
                     await bot.sendMessage(
@@ -95,7 +98,6 @@ export class SubscribesBotListService implements OnModuleInit {
         } catch (error) {
         }
     }
-
 
 
     async getAllSubscribeForDeleteList(bot: any, chatId: string): Promise<void> {
@@ -126,9 +128,12 @@ export class SubscribesBotListService implements OnModuleInit {
 
     async deleteSubscribe(bot: any, chatId: string, subscribeId: number): Promise<void> {
         try {
-            await this.subscribesService.delete(subscribeId);
-            await bot.sendMessage(chatId, 'Подписка удалена');
-
-        }catch (error) {}
+            const currentUser = await this.usersService.getByChatId(chatId);
+            if (currentUser.admin) {
+                await this.subscribesService.delete(subscribeId);
+                await bot.sendMessage(chatId, 'Подписка удалена');
+            }
+        } catch (error) {
+        }
     }
 }

@@ -13,13 +13,13 @@ export class SubscriptionController {
         return await this.subscribeService.create(subscribeDto)
     };
 
-    @Patch()
-    async update(@Body() subscribeUpdateDto: SubscribeUpdateDto): Promise<void> {
-        return await this.subscribeService.update(subscribeUpdateDto);
+    @Patch('/:chatId')
+    async update(@Param('chatId') chatId: string, @Body() subscribeUpdateDto: SubscribeUpdateDto): Promise<void> {
+        return await this.subscribeService.update(subscribeUpdateDto, chatId.toString());
     };
 
-    @Get()
-    async getAll(): Promise<SubscriptionEntity[]> {
+    @Get('/all')
+    async getAll(@Param('chatId') chatId: string): Promise<SubscriptionEntity[]> {
         return await this.subscribeService.getAll();
     }
 
